@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-// ?? Post Affiliates Pro ---
+// ── Post Affiliates Pro ───────────────────────────────────────────────────────
 const PAP_ACCOUNT_ID = "default1";
 const PAP_SCRIPT_URL = "https://pap.gomaxrx.com/scripts/3gn939v8j";
 
@@ -35,7 +35,7 @@ function firePAPAction(code) {
   } catch(e) {}
 }
 
-// ?? Affiliate / UTM tracking ---
+// ── Affiliate / UTM tracking ──────────────────────────────────────────────────
 function getTrackingParams() {
   const params = new URLSearchParams(window.location.search);
   const stored = JSON.parse(sessionStorage.getItem("mha_track") || "{}");
@@ -55,15 +55,15 @@ function getTrackingParams() {
 }
 
 function buildCTAUrl(base, tracking) {
-  const url = new URL(base.startsWith("http") - base : `https://${base}`);
+  const url = new URL(base.startsWith("http") ? base : `https://${base}`);
   Object.entries(tracking).forEach(([k, v]) => { if (v) url.searchParams.set(k, v); });
   return url.toString();
 }
 
-// ?? Google Sheets webhook URL - replace with your Apps Script Web App URL ---
+// ── Google Sheets webhook URL — replace with your Apps Script Web App URL ─────
 const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby17BXJ_ZwB0j6akuE7Qdq-jW4fCbRpx-x8b4dEggn9c-BZdOOtyswQfztOz26EsqirDQ/exec";
 
-// ?? Quiz data ---
+// ── Quiz data ────────────────────────────────────────────────────────────────
 const QUIZZES = {
   ed: {
     id: "ed",
@@ -76,9 +76,9 @@ const QUIZZES = {
         id: "age",
         text: "How old are you?",
         options: [
-          { label: "18-29", value: 0 },
-          { label: "30-44", value: 1 },
-          { label: "45-59", value: 2 },
+          { label: "18–29", value: 0 },
+          { label: "30–44", value: 1 },
+          { label: "45–59", value: 2 },
           { label: "60+", value: 3 },
         ],
       },
@@ -86,9 +86,9 @@ const QUIZZES = {
         id: "frequency",
         text: "How often do performance issues occur?",
         options: [
-          { label: "Rarely - once in a while", value: 0 },
-          { label: "Occasionally - a few times a month", value: 1 },
-          { label: "Frequently - most of the time", value: 2 },
+          { label: "Rarely — once in a while", value: 0 },
+          { label: "Occasionally — a few times a month", value: 1 },
+          { label: "Frequently — most of the time", value: 2 },
           { label: "Almost always", value: 3 },
         ],
       },
@@ -106,10 +106,10 @@ const QUIZZES = {
         id: "stress",
         text: "How would you rate your current stress level?",
         options: [
-          { label: "Low - pretty relaxed", value: 0 },
-          { label: "Moderate - manageable", value: 1 },
-          { label: "High - often overwhelmed", value: 2 },
-          { label: "Very high - constant pressure", value: 3 },
+          { label: "Low — pretty relaxed", value: 0 },
+          { label: "Moderate — manageable", value: 1 },
+          { label: "High — often overwhelmed", value: 2 },
+          { label: "Very high — constant pressure", value: 3 },
         ],
       },
       {
@@ -126,9 +126,9 @@ const QUIZZES = {
         id: "treatment",
         text: "Are you open to a discreet, FDA-approved treatment?",
         options: [
-          { label: "Absolutely - let's do it", value: 0 },
+          { label: "Absolutely — let's do it", value: 0 },
           { label: "Yes, if it's private", value: 0 },
-          { label: "Maybe - I want to learn more", value: 1 },
+          { label: "Maybe — I want to learn more", value: 1 },
           { label: "Not sure yet", value: 1 },
         ],
       },
@@ -137,13 +137,13 @@ const QUIZZES = {
       {
         key: "occasional",
         range: [0, 5],
-        headline: "Occasional Dip - Easy to Address",
-        emoji: "?",
+        headline: "Occasional Dip — Easy to Address",
+        emoji: "💪",
         explanation:
           "Your responses suggest stress or lifestyle factors are the likely cause. The good news: occasional ED is extremely common and very treatable.",
         bullets: [
           "Likely tied to stress or sleep quality",
-          "Strong baseline - minor intervention may be all you need",
+          "Strong baseline — minor intervention may be all you need",
           "Most men in your profile see results in days",
         ],
         confidence: 72,
@@ -152,7 +152,7 @@ const QUIZZES = {
         key: "stress",
         range: [6, 10],
         headline: "Stress-Linked Pattern Detected",
-        emoji: "?",
+        emoji: "🧠",
         explanation:
           "Your profile shows a stress-performance link. When your mind is under pressure, it affects your body. A targeted approach can break this cycle fast.",
         bullets: [
@@ -165,10 +165,10 @@ const QUIZZES = {
       {
         key: "progressive",
         range: [11, 14],
-        headline: "Progressive Pattern - Act Now",
-        emoji: "?",
+        headline: "Progressive Pattern — Act Now",
+        emoji: "⚡",
         explanation:
-          "Your results suggest a worsening pattern that won't resolve on its own. The earlier you address this, the better - and modern treatment is highly effective.",
+          "Your results suggest a worsening pattern that won't resolve on its own. The earlier you address this, the better — and modern treatment is highly effective.",
         bullets: [
           "Condition has been progressing over time",
           "Morning erection frequency is a key clinical signal",
@@ -180,9 +180,9 @@ const QUIZZES = {
         key: "treatment",
         range: [15, 100],
         headline: "Treatment Strongly Recommended",
-        emoji: "?",
+        emoji: "🏥",
         explanation:
-          "Based on your responses, professional evaluation and medical treatment is the clear next step. Don't wait - this is highly treatable and very private.",
+          "Based on your responses, professional evaluation and medical treatment is the clear next step. Don't wait — this is highly treatable and very private.",
         bullets: [
           "Multiple clinical signals present",
           "Discreet online consultation available today",
@@ -203,9 +203,9 @@ const QUIZZES = {
         id: "age",
         text: "How old are you?",
         options: [
-          { label: "18-24", value: 0 },
-          { label: "25-34", value: 1 },
-          { label: "35-44", value: 2 },
+          { label: "18–24", value: 0 },
+          { label: "25–34", value: 1 },
+          { label: "35–44", value: 2 },
           { label: "45+", value: 3 },
         ],
       },
@@ -224,8 +224,8 @@ const QUIZZES = {
         text: "How long has this been happening?",
         options: [
           { label: "Less than 6 months", value: 0 },
-          { label: "6 months - 1 year", value: 1 },
-          { label: "1-3 years", value: 2 },
+          { label: "6 months – 1 year", value: 1 },
+          { label: "1–3 years", value: 2 },
           { label: "More than 3 years", value: 3 },
         ],
       },
@@ -233,10 +233,10 @@ const QUIZZES = {
         id: "rate",
         text: "How fast is it progressing?",
         options: [
-          { label: "Very slowly - barely noticeable", value: 0 },
-          { label: "Gradually - I notice it every few months", value: 1 },
-          { label: "Steadily - visible change month to month", value: 2 },
-          { label: "Rapidly - changes week to week", value: 3 },
+          { label: "Very slowly — barely noticeable", value: 0 },
+          { label: "Gradually — I notice it every few months", value: 1 },
+          { label: "Steadily — visible change month to month", value: 2 },
+          { label: "Rapidly — changes week to week", value: 3 },
         ],
       },
       {
@@ -264,10 +264,10 @@ const QUIZZES = {
       {
         key: "early",
         range: [0, 4],
-        headline: "Early Stage - Prevention Window Open",
-        emoji: "?",
+        headline: "Early Stage — Prevention Window Open",
+        emoji: "🌱",
         explanation:
-          "You're catching this early. That's the best time to act. Prevention is far easier than reversal - and the right treatment now can lock in your current hairline.",
+          "You're catching this early. That's the best time to act. Prevention is far easier than reversal — and the right treatment now can lock in your current hairline.",
         bullets: [
           "Genetic risk is low to moderate",
           "Early intervention has highest success rate",
@@ -278,10 +278,10 @@ const QUIZZES = {
       {
         key: "active",
         range: [5, 9],
-        headline: "Active Thinning - Time to Intervene",
-        emoji: "??",
+        headline: "Active Thinning — Time to Intervene",
+        emoji: "⚠️",
         explanation:
-          "Your hair loss is actively progressing. Without treatment, this will continue. The good news: proven medications can stop loss and - for many - regrow hair.",
+          "Your hair loss is actively progressing. Without treatment, this will continue. The good news: proven medications can stop loss and — for many — regrow hair.",
         bullets: [
           "DHT-driven follicle miniaturization is likely the cause",
           "Finasteride stops loss in 87% of men",
@@ -293,7 +293,7 @@ const QUIZZES = {
         key: "aggressive",
         range: [10, 14],
         headline: "Aggressive Recession Detected",
-        emoji: "?",
+        emoji: "🔴",
         explanation:
           "Your profile shows significant, rapid hair loss. This requires a comprehensive approach. Medical treatment is your best path to preserving what you have and potentially regrowing more.",
         bullets: [
@@ -307,9 +307,9 @@ const QUIZZES = {
         key: "opportunity",
         range: [15, 100],
         headline: "Critical Treatment Opportunity",
-        emoji: "?",
+        emoji: "🏥",
         explanation:
-          "Your responses indicate advanced hair loss progression. A personalized medical plan - potentially including multiple therapies - can make a meaningful difference.",
+          "Your responses indicate advanced hair loss progression. A personalized medical plan — potentially including multiple therapies — can make a meaningful difference.",
         bullets: [
           "Long-term pattern well established",
           "Combination treatments show best results",
@@ -330,9 +330,9 @@ const QUIZZES = {
         id: "age",
         text: "How old are you?",
         options: [
-          { label: "18-29", value: 0 },
-          { label: "30-39", value: 1 },
-          { label: "40-49", value: 2 },
+          { label: "18–29", value: 0 },
+          { label: "30–39", value: 1 },
+          { label: "40–49", value: 2 },
           { label: "50+",   value: 3 },
         ],
       },
@@ -340,19 +340,19 @@ const QUIZZES = {
         id: "energy",
         text: "How would you describe your energy levels throughout the day?",
         options: [
-          { label: "Strong - I feel energized most of the day", value: 0 },
-          { label: "Moderate - I hit afternoon slumps regularly", value: 1 },
-          { label: "Low - I feel tired most of the time", value: 2 },
-          { label: "Exhausted - fatigue is constant, even after sleep", value: 3 },
+          { label: "Strong — I feel energized most of the day", value: 0 },
+          { label: "Moderate — I hit afternoon slumps regularly", value: 1 },
+          { label: "Low — I feel tired most of the time", value: 2 },
+          { label: "Exhausted — fatigue is constant, even after sleep", value: 3 },
         ],
       },
       {
         id: "libido",
         text: "Compared to a few years ago, how has your sex drive changed?",
         options: [
-          { label: "No change - still strong", value: 0 },
-          { label: "Slightly lower - I notice a difference", value: 1 },
-          { label: "Noticeably lower - significantly less interest", value: 2 },
+          { label: "No change — still strong", value: 0 },
+          { label: "Slightly lower — I notice a difference", value: 1 },
+          { label: "Noticeably lower — significantly less interest", value: 2 },
           { label: "Very low or almost none", value: 3 },
         ],
       },
@@ -360,40 +360,40 @@ const QUIZZES = {
         id: "mood",
         text: "How often do you experience irritability, low motivation, or 'brain fog'?",
         options: [
-          { label: "Rarely - I feel mentally sharp and positive", value: 0 },
-          { label: "Occasionally - a few times a month", value: 1 },
-          { label: "Often - it affects my daily life", value: 2 },
-          { label: "Almost daily - it's my baseline now", value: 3 },
+          { label: "Rarely — I feel mentally sharp and positive", value: 0 },
+          { label: "Occasionally — a few times a month", value: 1 },
+          { label: "Often — it affects my daily life", value: 2 },
+          { label: "Almost daily — it's my baseline now", value: 3 },
         ],
       },
       {
         id: "body",
-        text: "Have you noticed changes in body composition - less muscle, more fat?",
+        text: "Have you noticed changes in body composition — less muscle, more fat?",
         options: [
-          { label: "No - my body feels about the same", value: 0 },
-          { label: "Slightly - a bit softer despite similar habits", value: 1 },
-          { label: "Yes - noticeable muscle loss or belly fat increase", value: 2 },
-          { label: "Significant - difficult to maintain muscle at all", value: 3 },
+          { label: "No — my body feels about the same", value: 0 },
+          { label: "Slightly — a bit softer despite similar habits", value: 1 },
+          { label: "Yes — noticeable muscle loss or belly fat increase", value: 2 },
+          { label: "Significant — difficult to maintain muscle at all", value: 3 },
         ],
       },
       {
         id: "sleep",
         text: "How is your sleep quality?",
         options: [
-          { label: "Good - I wake up refreshed", value: 0 },
-          { label: "Fair - sometimes restless but manageable", value: 1 },
-          { label: "Poor - I rarely sleep well", value: 2 },
-          { label: "Very poor - disrupted sleep most nights", value: 3 },
+          { label: "Good — I wake up refreshed", value: 0 },
+          { label: "Fair — sometimes restless but manageable", value: 1 },
+          { label: "Poor — I rarely sleep well", value: 2 },
+          { label: "Very poor — disrupted sleep most nights", value: 3 },
         ],
       },
       {
         id: "tested",
         text: "Have you ever had your testosterone levels tested?",
         options: [
-          { label: "Yes - and levels were normal", value: 0 },
-          { label: "Yes - and levels were low or borderline", value: 3 },
-          { label: "No - but I suspect they may be low", value: 2 },
-          { label: "No - this is my first time looking into it", value: 1 },
+          { label: "Yes — and levels were normal", value: 0 },
+          { label: "Yes — and levels were low or borderline", value: 3 },
+          { label: "No — but I suspect they may be low", value: 2 },
+          { label: "No — this is my first time looking into it", value: 1 },
         ],
       },
     ],
@@ -402,11 +402,11 @@ const QUIZZES = {
         key: "optimal",
         range: [0, 5],
         headline: "Your T-Levels Appear Healthy",
-        emoji: "?",
+        emoji: "✅",
         explanation:
-          "Your responses suggest your testosterone is likely in a healthy range. That said, levels naturally decline with age - knowing your baseline now gives you a head start.",
+          "Your responses suggest your testosterone is likely in a healthy range. That said, levels naturally decline with age — knowing your baseline now gives you a head start.",
         bullets: [
-          "Low symptom burden - strong baseline indicators",
+          "Low symptom burden — strong baseline indicators",
           "Proactive monitoring can catch early decline",
           "Lifestyle optimization can sustain healthy T long-term",
         ],
@@ -415,8 +415,8 @@ const QUIZZES = {
       {
         key: "borderline",
         range: [6, 11],
-        headline: "Borderline Signs - Worth Investigating",
-        emoji: "??",
+        headline: "Borderline Signs — Worth Investigating",
+        emoji: "⚠️",
         explanation:
           "Your profile shows several symptoms associated with declining testosterone. These signals don't confirm low T, but they're worth taking seriously with a proper evaluation.",
         bullets: [
@@ -430,9 +430,9 @@ const QUIZZES = {
         key: "likely_low",
         range: [12, 17],
         headline: "Low Testosterone Is Likely",
-        emoji: "?",
+        emoji: "📉",
         explanation:
-          "Your responses align closely with clinically recognized low-T symptoms. Multiple markers - energy, libido, mood, and body composition - are all pointing in the same direction.",
+          "Your responses align closely with clinically recognized low-T symptoms. Multiple markers — energy, libido, mood, and body composition — are all pointing in the same direction.",
         bullets: [
           "Symptom cluster is highly consistent with hypogonadism",
           "TRT (Testosterone Replacement Therapy) has high success rates",
@@ -444,13 +444,13 @@ const QUIZZES = {
         key: "action_needed",
         range: [18, 100],
         headline: "Strong Indicators of Low Testosterone",
-        emoji: "?",
+        emoji: "🔴",
         explanation:
           "Your profile strongly suggests clinically low testosterone. The combination of fatigue, libido loss, mood changes, body composition shifts, and sleep disruption is a clear pattern that needs attention.",
         bullets: [
           "Multiple high-risk clinical markers present",
           "TRT can restore energy, drive, and body composition",
-          "Online clinician visit - no awkward in-person appointment",
+          "Online clinician visit — no awkward in-person appointment",
         ],
         confidence: 95,
       },
@@ -467,20 +467,20 @@ const QUIZZES = {
         id: "initiate",
         text: "How often does she initiate intimacy?",
         options: [
-          { key: "a", label: "Rarely - it's almost always me", value: 3 },
+          { key: "a", label: "Rarely — it's almost always me", value: 3 },
           { key: "b", label: "She used to more than she does now", value: 2 },
-          { key: "c", label: "Sometimes - about even", value: 1 },
-          { key: "d", label: "Often - she's enthusiastic", value: 0 },
+          { key: "c", label: "Sometimes — about even", value: 1 },
+          { key: "d", label: "Often — she's enthusiastic", value: 0 },
         ],
       },
       {
         id: "after",
         text: "How does she seem after intimacy?",
         options: [
-          { key: "a", label: "Distant or quiet - hard to read", value: 3 },
+          { key: "a", label: "Distant or quiet — hard to read", value: 3 },
           { key: "b", label: "Fine but not especially connected", value: 2 },
           { key: "c", label: "Happy and affectionate", value: 1 },
-          { key: "d", label: "Very connected - brings us closer", value: 0 },
+          { key: "d", label: "Very connected — brings us closer", value: 0 },
         ],
       },
       {
@@ -490,24 +490,24 @@ const QUIZZES = {
           { key: "a", label: "She's said it directly", value: 3 },
           { key: "b", label: "She's dropped hints", value: 2 },
           { key: "c", label: "Not recently", value: 1 },
-          { key: "d", label: "Never - she seems satisfied", value: 0 },
+          { key: "d", label: "Never — she seems satisfied", value: 0 },
         ],
       },
       {
         id: "energy",
         text: "How's your energy and drive around her lately?",
         options: [
-          { key: "a", label: "Low - I'm often tired or distracted", value: 3 },
-          { key: "b", label: "Inconsistent - up and down", value: 2 },
+          { key: "a", label: "Low — I'm often tired or distracted", value: 3 },
+          { key: "b", label: "Inconsistent — up and down", value: 2 },
           { key: "c", label: "Pretty good most of the time", value: 1 },
-          { key: "d", label: "High - I feel motivated and present", value: 0 },
+          { key: "d", label: "High — I feel motivated and present", value: 0 },
         ],
       },
       {
         id: "confidence",
         text: "How confident do you feel in intimate moments?",
         options: [
-          { key: "a", label: "Not confident - I'm in my head", value: 3 },
+          { key: "a", label: "Not confident — I'm in my head", value: 3 },
           { key: "b", label: "Sometimes uncertain", value: 2 },
           { key: "c", label: "Mostly confident", value: 1 },
           { key: "d", label: "Very confident and present", value: 0 },
@@ -517,9 +517,9 @@ const QUIZZES = {
         id: "age",
         text: "How old are you?",
         options: [
-          { key: "a", label: "18-29", value: 0 },
-          { key: "b", label: "30-39", value: 0 },
-          { key: "c", label: "40-49", value: 0 },
+          { key: "a", label: "18–29", value: 0 },
+          { key: "b", label: "30–39", value: 0 },
+          { key: "c", label: "40–49", value: 0 },
           { key: "d", label: "50+", value: 0 },
         ],
       },
@@ -529,8 +529,8 @@ const QUIZZES = {
         key: "strong",
         range: [0, 3],
         headline: "Strong Connection",
-        emoji: "?",
-        explanation: "Your relationship scores well across the board. She feels connected, you feel confident, and the dynamic between you is healthy. The key now is maintaining momentum - small consistent efforts keep strong relationships strong.",
+        emoji: "💚",
+        explanation: "Your relationship scores well across the board. She feels connected, you feel confident, and the dynamic between you is healthy. The key now is maintaining momentum — small consistent efforts keep strong relationships strong.",
         bullets: [
           "Mutual initiation is a strong sign of healthy attraction",
           "Emotional connection after intimacy reflects deep bonding",
@@ -542,11 +542,11 @@ const QUIZZES = {
         key: "room_to_grow",
         range: [4, 7],
         headline: "Room To Grow",
-        emoji: "?",
-        explanation: "Things are decent but something is quietly getting in the way. She may not have said anything yet - but these small gaps tend to grow over time if left unaddressed. The good news: small changes make a big difference here.",
+        emoji: "🟡",
+        explanation: "Things are decent but something is quietly getting in the way. She may not have said anything yet — but these small gaps tend to grow over time if left unaddressed. The good news: small changes make a big difference here.",
         bullets: [
           "Minor dips in energy and confidence are often hormonal",
-          "She notices effort - even small improvements register",
+          "She notices effort — even small improvements register",
           "Most men in this range respond well to targeted support",
         ],
         confidence: 79,
@@ -555,8 +555,8 @@ const QUIZZES = {
         key: "drifting",
         range: [8, 11],
         headline: "Things Have Quietly Shifted",
-        emoji: "?",
-        explanation: "There's a gap forming between you and it's affecting how she sees the relationship. She may not have said everything she's thinking. This pattern is common and very fixable - but it needs attention now before it widens.",
+        emoji: "🔶",
+        explanation: "There's a gap forming between you and it's affecting how she sees the relationship. She may not have said everything she's thinking. This pattern is common and very fixable — but it needs attention now before it widens.",
         bullets: [
           "Reduced drive and confidence are often linked to low testosterone",
           "Partners notice changes in energy before men admit them",
@@ -567,12 +567,12 @@ const QUIZZES = {
       {
         key: "red_flag",
         range: [12, 100],
-        headline: "She's Noticed - And Hasn't Said Everything",
-        emoji: "?",
-        explanation: "Your responses suggest the relationship is under real strain. She's likely noticed the change in your energy, confidence, or presence - even if she hasn't said it directly. This is fixable, but it starts with being honest with yourself.",
+        headline: "She's Noticed — And Hasn't Said Everything",
+        emoji: "🔴",
+        explanation: "Your responses suggest the relationship is under real strain. She's likely noticed the change in your energy, confidence, or presence — even if she hasn't said it directly. This is fixable, but it starts with being honest with yourself.",
         bullets: [
           "Low testosterone is the leading cause of this pattern in men",
-          "Performance and confidence issues are medical - not personal failures",
+          "Performance and confidence issues are medical — not personal failures",
           "A discreet online consultation takes under 10 minutes",
         ],
         confidence: 91,
@@ -581,31 +581,31 @@ const QUIZZES = {
   },
 };
 
-// ?? Scoring ---
-// ?? Peer comparison data ---
+// ── Scoring ───────────────────────────────────────────────────────────────────
+// ── Peer comparison data ──────────────────────────────────────────────────────
 const PEER_DATA = {
   ed: {
-    "18-29": { affected: 26, untreated: 71, label: "men 18-29" },
-    "30-44": { affected: 40, untreated: 74, label: "men 30-44" },
-    "45-59": { affected: 57, untreated: 78, label: "men 45-59" },
+    "18–29": { affected: 26, untreated: 71, label: "men 18–29" },
+    "30–44": { affected: 40, untreated: 74, label: "men 30–44" },
+    "45–59": { affected: 57, untreated: 78, label: "men 45–59" },
     "60+":   { affected: 70, untreated: 82, label: "men 60+" },
   },
   hair: {
-    "18-24": { affected: 16, untreated: 68, label: "men 18-24" },
-    "25-34": { affected: 44, untreated: 72, label: "men 25-34" },
-    "35-44": { affected: 62, untreated: 79, label: "men 35-44" },
+    "18–24": { affected: 16, untreated: 68, label: "men 18–24" },
+    "25–34": { affected: 44, untreated: 72, label: "men 25–34" },
+    "35–44": { affected: 62, untreated: 79, label: "men 35–44" },
     "45+":   { affected: 75, untreated: 83, label: "men 45+" },
   },
   testosterone: {
-    "18-29": { affected: 12, untreated: 65, label: "men 18-29" },
-    "30-39": { affected: 24, untreated: 70, label: "men 30-39" },
-    "40-49": { affected: 38, untreated: 76, label: "men 40-49" },
+    "18–29": { affected: 12, untreated: 65, label: "men 18–29" },
+    "30–39": { affected: 24, untreated: 70, label: "men 30–39" },
+    "40–49": { affected: 38, untreated: 76, label: "men 40–49" },
     "50+":   { affected: 52, untreated: 81, label: "men 50+" },
   },
   partner: {
-    "18-29": { affected: 31, untreated: 67, label: "men 18-29" },
-    "30-39": { affected: 44, untreated: 72, label: "men 30-39" },
-    "40-49": { affected: 58, untreated: 77, label: "men 40-49" },
+    "18–29": { affected: 31, untreated: 67, label: "men 18–29" },
+    "30–39": { affected: 44, untreated: 72, label: "men 30–39" },
+    "40–49": { affected: 58, untreated: 77, label: "men 40–49" },
     "50+":   { affected: 64, untreated: 80, label: "men 50+" },
   },
 };
@@ -630,7 +630,7 @@ const LOADING_MSGS = [
   "Personalizing your results...",
 ];
 
-// ?? Inline CSS ---
+// ── Inline CSS ────────────────────────────────────────────────────────────────
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap');
 
@@ -1030,9 +1030,9 @@ const CSS = `
   .mrx-disc { font-size: 11px; color: #555; text-align: center; line-height: 1.5; margin-top: 18px; }
 `;
 
-// ?? Sub-components ---
+// ── Sub-components ────────────────────────────────────────────────────────────
 function ProgressBar({ current, total, title }) {
-  const pct = total > 0 - Math.round((current / total) * 100) : 0;
+  const pct = total > 0 ? Math.round((current / total) * 100) : 0;
   return (
     <div className="mrx-progress">
       <div className="mrx-pmeta">
@@ -1061,45 +1061,45 @@ function Welcome({ onSelect }) {
           <div className="mrx-social-proof">
             <p className="mrx-proof-count">50,000+ men have taken this test.</p>
             <ul className="mrx-checks">
-              <li><span className="mrx-check">?</span> Private</li>
-              <li><span className="mrx-check">?</span> Takes 30 seconds</li>
-              <li><span className="mrx-check">?</span> Instant results</li>
+              <li><span className="mrx-check">✓</span> Private</li>
+              <li><span className="mrx-check">✓</span> Takes 30 seconds</li>
+              <li><span className="mrx-check">✓</span> Instant results</li>
             </ul>
           </div>
         </div>
         <div>
           <div className="mrx-cards">
             <button className="mrx-card" onClick={() => onSelect("ed")}>
-              <div className="mrx-card-icon">?</div>
+              <div className="mrx-card-icon">⚡</div>
               <div className="mrx-card-info">
                 <h3>Bedroom Confidence Score</h3>
                 <p>Performance, energy & confidence assessment</p>
               </div>
-              <span className="mrx-card-arr">?</span>
+              <span className="mrx-card-arr">›</span>
             </button>
             <button className="mrx-card" onClick={() => onSelect("hair")}>
-              <div className="mrx-card-icon">?</div>
+              <div className="mrx-card-icon">🌱</div>
               <div className="mrx-card-info">
                 <h3>Hairline Risk Score</h3>
                 <p>Hair loss stage & treatment opportunity</p>
               </div>
-              <span className="mrx-card-arr">?</span>
+              <span className="mrx-card-arr">›</span>
             </button>
             <button className="mrx-card" onClick={() => onSelect("testosterone")}>
-              <div className="mrx-card-icon">?</div>
+              <div className="mrx-card-icon">🔥</div>
               <div className="mrx-card-info">
                 <h3>Is Your Testosterone Low?</h3>
                 <p>Energy, drive & hormone level assessment</p>
               </div>
-              <span className="mrx-card-arr">?</span>
+              <span className="mrx-card-arr">›</span>
             </button>
             <button className="mrx-card" onClick={() => onSelect("partner")}>
-              <div className="mrx-card-icon">??</div>
+              <div className="mrx-card-icon">❤️</div>
               <div className="mrx-card-info">
                 <h3>What Does Your Partner Really Think?</h3>
                 <p>Relationship confidence & performance score</p>
               </div>
-              <span className="mrx-card-arr">?</span>
+              <span className="mrx-card-arr">›</span>
             </button>
           </div>
           <p className="mrx-disc">Results are informational only. Not medical advice. Your data is never sold.</p>
@@ -1132,7 +1132,7 @@ function Question({ quiz, qIndex, answers, onAnswer, onNext, onBack }) {
             return (
               <button
                 key={i}
-                className={`mrx-opt${pickKey === key - " sel" : ""}`}
+                className={`mrx-opt${pickKey === key ? " sel" : ""}`}
                 onClick={() => handlePick(q.id, opt.value, key)}
               >
                 <span className="mrx-circle"><span className="mrx-dot" /></span>
@@ -1143,7 +1143,7 @@ function Question({ quiz, qIndex, answers, onAnswer, onNext, onBack }) {
         </div>
         {qIndex > 0 && (
           <div className="mrx-nav">
-            <button className="mrx-back" onClick={onBack}>? Back</button>
+            <button className="mrx-back" onClick={onBack}>← Back</button>
           </div>
         )}
       </div>
@@ -1165,7 +1165,7 @@ function Loading() {
       <div>
         <div className="mrx-lmsg">{LOADING_MSGS[msgIdx]}</div>
         <div className="mrx-ldots">
-          {[0, 1, 2].map(i => <span key={i} className={`mrx-ldot${i === dot - " on" : ""}`} />)}
+          {[0, 1, 2].map(i => <span key={i} className={`mrx-ldot${i === dot ? " on" : ""}`} />)}
         </div>
       </div>
       <p className="mrx-lsub">Building your personalized profile...</p>
@@ -1174,15 +1174,17 @@ function Loading() {
 }
 
 
-// ?? Lead Gate (full slide before results) ---
+// ── Lead Gate (full slide before results) ────────────────────────────────────
 function isValidEmail(e) {
   return e.indexOf("@") > 0 && e.lastIndexOf(".") > e.indexOf("@") + 1;
 }
 
 function sendToSheet(payload) {
+  if (!WEBHOOK_URL || WEBHOOK_URL.includes("YOUR_GOOGLE")) return;
   try {
-    fetch("/api/lead", {
+    fetch(WEBHOOK_URL, {
       method: "POST",
+      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
@@ -1227,20 +1229,20 @@ function LeadGate({ quiz, result, tracking, onDone }) {
   return (
     <div className="mrx-screen mrx-leadgate">
       <div className="mrx-lg-top">
-        <div className="mrx-lg-badge">? Your results are ready</div>
+        <div className="mrx-lg-badge">🔒 Your results are ready</div>
         <h2 className="mrx-lg-title">Where should we send<br />your personalized plan?</h2>
-        <p className="mrx-lg-sub">Enter your details to unlock your full assessment - 100% private, no spam</p>
+        <p className="mrx-lg-sub">Enter your details to unlock your full assessment — 100% private, no spam</p>
       </div>
       <div className="mrx-lg-preview">
         <div className="mrx-lg-preview-row">
           <span className="mrx-lg-blur">{result.headline}</span>
-          <span className="mrx-lg-lock-icon">?</span>
+          <span className="mrx-lg-lock-icon">🔒</span>
         </div>
         <div className="mrx-lg-preview-row mrx-lg-blur-row">
-          <span className="mrx-lg-blur">--- ?? --- ---</span>
+          <span className="mrx-lg-blur">██████ ██ ████████ ██████</span>
         </div>
         <div className="mrx-lg-preview-row mrx-lg-blur-row">
-          <span className="mrx-lg-blur">--- ?? --- ---</span>
+          <span className="mrx-lg-blur">████ ██ ████ ████████</span>
         </div>
       </div>
       <div className="mrx-lg-fields">
@@ -1263,19 +1265,19 @@ function LeadGate({ quiz, result, tracking, onDone }) {
         />
       </div>
       <button
-        className={`mrx-lead-btn${!valid - " disabled" : ""}${status === "loading" - " loading" : ""}`}
+        className={`mrx-lead-btn${!valid ? " disabled" : ""}${status === "loading" ? " loading" : ""}`}
         onClick={handleSubmit}
         disabled={!valid || status === "loading"}
       >
-        {status === "loading" - "Unlocking..." : "Unlock My Results ?"}
+        {status === "loading" ? "Unlocking..." : "Unlock My Results →"}
       </button>
-      <p className="mrx-lead-privacy">? Private & secure - never sold or shared</p>
+      <p className="mrx-lead-privacy">🔒 Private & secure — never sold or shared</p>
       <button className="mrx-lg-skip" onClick={handleSkip}>Skip, show results without saving</button>
     </div>
   );
 }
 
-// ?? Peer Comparison ---
+// ── Peer Comparison ───────────────────────────────────────────────────────────
 function PeerComparison({ quizId, ageBracket }) {
   const [animDone, setAnimDone] = useState(false);
   useEffect(() => { const t = setTimeout(() => setAnimDone(true), 200); return () => clearTimeout(t); }, []);
@@ -1283,14 +1285,14 @@ function PeerComparison({ quizId, ageBracket }) {
   const data = PEER_DATA[quizId]?.[ageBracket];
   if (!data) return null;
 
-  const topicLabel = quizId === "ed" - "ED symptoms" : quizId === "hair" - "hair loss" : quizId === "partner" - "relationship confidence issues" : "low testosterone symptoms";
-  const pct = animDone - data.affected : 0;
-  const pct2 = animDone - data.untreated : 0;
+  const topicLabel = quizId === "ed" ? "ED symptoms" : quizId === "hair" ? "hair loss" : quizId === "partner" ? "relationship confidence issues" : "low testosterone symptoms";
+  const pct = animDone ? data.affected : 0;
+  const pct2 = animDone ? data.untreated : 0;
 
   return (
     <div className="mrx-peer">
       <div className="mrx-peer-title">
-        <span className="mrx-peer-icon">?</span>
+        <span className="mrx-peer-icon">👥</span>
         How you compare to {data.label}
       </div>
       <div className="mrx-peer-row">
@@ -1314,6 +1316,7 @@ function PeerComparison({ quizId, ageBracket }) {
 
 function Result({ quiz, result, tracking, onRestart }) {
   const [filled, setFilled] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
   useEffect(() => { setTimeout(() => setFilled(true), 80); }, []);
   const ctaUrl = buildCTAUrl(quiz.ctaBase, tracking);
 
@@ -1322,16 +1325,30 @@ function Result({ quiz, result, tracking, onRestart }) {
     firePAPAction("click");
     const papAid = getPAPAffiliateId();
     const finalUrl = papAid && !ctaUrl.includes("a_aid=")
-      - ctaUrl + (ctaUrl.includes("?") - "&" : "?") + "a_aid=" + papAid
+      ? ctaUrl + (ctaUrl.includes("?") ? "&" : "?") + "a_aid=" + papAid
       : ctaUrl;
-    // Navigate immediately in same tab - no popup, no delay, no blocker
-    window.location.href = finalUrl;
+    setTransitioning(true);
+    setTimeout(() => { window.location.href = finalUrl; }, 1000);
   }
+
+  if (transitioning) return (
+    <div className="mrx-transition-overlay">
+      <div className="mrx-spinner" />
+      <p className="mrx-transition-msg">Connecting you with a licensed provider…</p>
+      <div className="mrx-transition-secure">
+        <svg className="mrx-transition-lock" width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <rect x="3" y="6" width="8" height="6" rx="1.5" stroke="#6B7280" strokeWidth="1.2"/>
+          <path d="M5 6V4.5a2 2 0 014 0V6" stroke="#6B7280" strokeWidth="1.2" strokeLinecap="round"/>
+        </svg>
+        Secure medical visit
+      </div>
+    </div>
+  );
 
   return (
     <div className="mrx-result">
       <div className="mrx-rtag"><span className="mrx-rtag-dot" /> Your Health Profile</div>
-      <div className="mrx-step-indicator">Step 3 of 3 - Your Results</div>
+      <div className="mrx-step-indicator">Step 3 of 3 — Your Results</div>
       <span className="mrx-remoji">{result.emoji}</span>
       <h2 className="mrx-rtitle">{result.headline}</h2>
       <p className="mrx-rexp">{result.explanation}</p>
@@ -1341,7 +1358,7 @@ function Result({ quiz, result, tracking, onRestart }) {
           <span className="mrx-cval">{result.confidence}%</span>
         </div>
         <div className="mrx-ctrack">
-          <div className="mrx-cfill" style={{ width: filled - `${result.confidence}%` : "0%" }} />
+          <div className="mrx-cfill" style={{ width: filled ? `${result.confidence}%` : "0%" }} />
         </div>
       </div>
       <div className="mrx-bullets">
@@ -1371,21 +1388,21 @@ function Result({ quiz, result, tracking, onRestart }) {
         Free medical visit with a licensed provider
       </div>
       <a className="mrx-cta" href={ctaUrl} onClick={handleCTA} rel="noopener noreferrer">
-        {quiz.ctaLabel} ?
+        {quiz.ctaLabel} →
       </a>
-      <p className="mrx-privacy-strip">100% private - Discreet shipping - No waiting rooms</p>
+      <p className="mrx-privacy-strip">100% private • Discreet shipping • No waiting rooms</p>
       <button className="mrx-cta2" onClick={onRestart}>Take a different quiz</button>
       <div className="mrx-share-section">
         <p className="mrx-share-label">Share with a friend</p>
         <div className="mrx-share-grid-2">
           <a className="mrx-share-btn mrx-share-tg"
-            href={`https://t.me/share/url?url=${encodeURIComponent(typeof window!=='undefined'?window.location.href:'https://meniq.co')}&text=${encodeURIComponent("I just took the Men's Health Quiz - find out where you stand: ")}`}
+            href={`https://t.me/share/url?url=${encodeURIComponent(typeof window!=='undefined'?window.location.href:'https://meniq.co')}&text=${encodeURIComponent("I just took the Men's Health Quiz — find out where you stand: ")}`}
             target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.947l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.978.612z"/></svg>
             Telegram
           </a>
           <a className="mrx-share-btn mrx-share-wa"
-            href={`https://wa.me/?text=${encodeURIComponent("I just took the Men's Health Quiz - find out where you stand: " + (typeof window!=='undefined'?window.location.href:'https://meniq.co'))}`}
+            href={`https://wa.me/?text=${encodeURIComponent("I just took the Men's Health Quiz — find out where you stand: " + (typeof window!=='undefined'?window.location.href:'https://meniq.co'))}`}
             target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             WhatsApp
@@ -1394,13 +1411,13 @@ function Result({ quiz, result, tracking, onRestart }) {
       </div>
       <p className="mrx-disc">
         This assessment is for informational purposes only. All treatments require consultation with a licensed provider.
-        {tracking.affiliate - ` - Ref: ${tracking.affiliate}` : ""}
+        {tracking.affiliate ? ` · Ref: ${tracking.affiliate}` : ""}
       </p>
     </div>
   );
 }
 
-// ?? Main App ---
+// ── Main App ──────────────────────────────────────────────────────────────────
 export default function MaxRxQuiz() {
   const [phase, setPhase] = useState("welcome");
   const [quizId, setQuizId] = useState(null);
@@ -1412,7 +1429,7 @@ export default function MaxRxQuiz() {
   });
   useEffect(() => { loadPAPScript(); }, []);
 
-  const quiz = quizId - QUIZZES[quizId] : null;
+  const quiz = quizId ? QUIZZES[quizId] : null;
 
   function startQuiz(id) {
     setQuizId(id); setQIndex(0); setAnswers({}); setPhase("question");
