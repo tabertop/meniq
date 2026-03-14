@@ -26,7 +26,7 @@ export default function Home() {
         <meta property="og:site_name" content="MenIQ.co" />
         <meta property="og:title" content="Most men score lower than they think. What's your score?" />
         <meta property="og:description" content="Free 30-second men's health test. Compare your score against men your age. Private and instant results." />
-        <meta property="og:image" content="https://meniq.co/og-image.png" />
+        <meta property="og:image" content="https://meniq.co/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="en_US" />
@@ -34,7 +34,7 @@ export default function Home() {
         <meta name="twitter:site" content="@meniqco" />
         <meta name="twitter:title" content="Most men score lower than they think." />
         <meta name="twitter:description" content="Free 30-second men's health test. Find out how you rank vs other men your age." />
-        <meta name="twitter:image" content="https://meniq.co/og-image.png" />
+        <meta name="twitter:image" content="https://meniq.co/og-image.svg" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
