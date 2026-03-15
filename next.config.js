@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Allow the quiz to be embedded in Telegram WebApp
   async headers() {
     return [
       {
-        source: '/(.*)',
-        headers: [
-          { key: 'X-Frame-Options', value: 'ALLOWALL' },
-          { key: 'Content-Security-Policy', value: "frame-ancestors *" },
-        ],
+        source: '/images/:path*.png',
+        headers: [{ key: 'Content-Type', value: 'image/png' }],
+      },
+      {
+        source: '/images/:path*.jpg',
+        headers: [{ key: 'Content-Type', value: 'image/jpeg' }],
       },
     ]
   },
