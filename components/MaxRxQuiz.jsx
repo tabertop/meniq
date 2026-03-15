@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+// quiz-bundle-v3
 
 // ── Post Affiliates Pro ───────────────────────────────────────────────────────
 const PAP_ACCOUNT_ID = "default1";
@@ -1154,7 +1155,7 @@ function Question({ quiz, qIndex, answers, onAnswer, onNext, onBack }) {
                 onClick={() => handlePick(q.id, opt.value, key)}
               >
                 <span className="mrx-circle"><span className="mrx-dot" /></span>
-                {opt.label}
+                {opt.label ?? opt.text}
               </button>
             );
           })}
@@ -1247,27 +1248,15 @@ function LeadGate({ quiz, result, tracking, onDone }) {
   return (
     <div className="mrx-screen mrx-leadgate">
       <div className="mrx-lg-top">
-        <div className="mrx-lg-badge">🔒 Your results are ready</div>
-        <h2 className="mrx-lg-title">Where should we send<br />your personalized plan?</h2>
-        <p className="mrx-lg-sub">Enter your details to unlock your full assessment — 100% private, no spam</p>
-      </div>
-      <div className="mrx-lg-preview">
-        <div className="mrx-lg-preview-row">
-          <span className="mrx-lg-blur">{result.headline}</span>
-          <span className="mrx-lg-lock-icon">🔒</span>
-        </div>
-        <div className="mrx-lg-preview-row mrx-lg-blur-row">
-          <span className="mrx-lg-blur">██████ ██ ████████ ██████</span>
-        </div>
-        <div className="mrx-lg-preview-row mrx-lg-blur-row">
-          <span className="mrx-lg-blur">████ ██ ████ ████████</span>
-        </div>
+        <div className="mrx-lg-badge">✅ Your results are ready</div>
+        <h2 className="mrx-lg-title">Your results are ready</h2>
+        <p className="mrx-lg-sub">Would you like a copy of your personalized assessment emailed to you?</p>
       </div>
       <div className="mrx-lg-fields">
         <input
           className="mrx-lead-input"
           type="text"
-          placeholder="First name"
+          placeholder="First Name"
           value={name}
           onChange={e => setName(e.target.value)}
           autoComplete="given-name"
@@ -1275,7 +1264,7 @@ function LeadGate({ quiz, result, tracking, onDone }) {
         <input
           className="mrx-lead-input"
           type="email"
-          placeholder="Email address"
+          placeholder="Email Address"
           value={email}
           onChange={e => setEmail(e.target.value)}
           autoComplete="email"
@@ -1287,15 +1276,17 @@ function LeadGate({ quiz, result, tracking, onDone }) {
         onClick={handleSubmit}
         disabled={!valid || status === "loading"}
       >
-        {status === "loading" ? "Unlocking..." : "Unlock My Results →"}
+        {status === "loading" ? "Sending..." : "Email My Results \u2192"}
       </button>
       <p className="mrx-lead-privacy">🔒 Private & secure — never sold or shared</p>
-      <button className="mrx-lg-skip" onClick={handleSkip}>Skip, show results without saving</button>
+      <div className="mrx-lg-divider"><span>or</span></div>
+      <button className="mrx-lg-skip-btn" onClick={handleSkip}>
+        Show My Results →
+      </button>
     </div>
   );
 }
 
-// ── Peer Comparison ───────────────────────────────────────────────────────────
 function PeerComparison({ quizId, ageBracket }) {
   const [animDone, setAnimDone] = useState(false);
   useEffect(() => { const t = setTimeout(() => setAnimDone(true), 200); return () => clearTimeout(t); }, []);
@@ -1331,6 +1322,45 @@ function PeerComparison({ quizId, ageBracket }) {
     </div>
   );
 }
+
+
+const QUIZ_MAX_SCORES = { ed: 16, hair: 17, testosterone: 21, partner: 15 };
+
+function getScoreColor(score) {
+  if (score < 30) return "#22C55E";   // green — low concern
+  if (score < 55) return "#F59E0B";   // amber — moderate
+  if (score < 75) return "#F97316";   // orange — elevated
+  return "#EF4444";                    // red — high concern
+}
+
+function getMenIQCategory(quizId, score) {
+  if (quizId === "ed") {
+    if (score >= 75) return "Treatment Strongly Recommended";
+    if (score >= 55) return "Progressive Pattern Detected";
+    if (score >= 30) return "Stress-Linked Pattern";
+    return "Mild — Monitor & Maintain";
+  }
+  if (quizId === "hair") {
+    if (score >= 75) return "Advanced Hair Loss";
+    if (score >= 55) return "Active Thinning Detected";
+    if (score >= 30) return "Early Stage Thinning";
+    return "Healthy Hair Profile";
+  }
+  if (quizId === "testosterone") {
+    if (score >= 75) return "Low T — Clinical Range";
+    if (score >= 55) return "Suboptimal T Levels";
+    if (score >= 30) return "Borderline Testosterone";
+    return "Healthy T Profile";
+  }
+  if (quizId === "partner") {
+    if (score >= 75) return "Relationship Needs Attention";
+    if (score >= 55) return "Friction Detected";
+    if (score >= 30) return "Room to Strengthen Bond";
+    return "Strong Connection";
+  }
+  return "Assessment Complete";
+}
+
 
 function Result({ quiz, result, tracking, onRestart }) {
   const [filled, setFilled] = useState(false);
