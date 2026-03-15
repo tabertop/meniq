@@ -1,0 +1,13 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#0d0d0d"/>
+  <rect x="0" y="0" width="8" height="1200" fill="#c0392b"/>
+  <rect x="0" y="1192" width="1200" height="8" fill="#c0392b"/>
+  <polyline points="340,580 400,580 440,480 480,660 520,400 560,580 620,580"
+    fill="none" stroke="#c0392b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="740" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="160" font-weight="900" letter-spacing="-4">
+    <tspan fill="#ffffff">MEN</tspan><tspan fill="#c0392b">IQ</tspan>
+  </text>
+  <text x="600" y="820" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="72" font-weight="900" fill="#333333" letter-spacing="4">.CO</text>
+  <text x="600" y="920" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" fill="#555555" letter-spacing="6">HEALTH ASSESSMENT</text>
+  <text x="600" y="1120" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" fill="#333333" letter-spacing="2">See how you rank vs other men your age.</text>
+</svg>
