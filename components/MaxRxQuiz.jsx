@@ -1502,8 +1502,7 @@ function Result({ quiz, result, tracking, onRestart }) {
         This assessment is for informational purposes only. All treatments require consultation with a licensed provider.
         {tracking.affiliate ? ` - Ref: ${tracking.affiliate}` : ""}
       </p>
-      <div style={{position:'fixed',bottom:'8px',right:'8px',background:'#c0392b',color:'white',fontSize:'10px',fontWeight:'w;
-0k',padding:'4px 8px',borderRadius:'4px',zIndex:9999,letterSpacing:'.04em',fontFamily:'monospace'}}>VERSION TEST NEW SCREEN</div>
+      <div style={{position:'fixed',bottom:'8px',right:'8px',background:'#c0392b',color:'white',fontSize:'10px',fontWeight:'700',padding:'4px 8px',borderRadius:'4px',zIndex:9999,letterSpacing:'.04em',fontFamily:'monospace'}}>VERSION TEST NEW SCREEN</div>
     </div>
   );
 }
