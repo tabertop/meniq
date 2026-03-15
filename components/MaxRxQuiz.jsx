@@ -1130,6 +1130,7 @@ function Welcome({ onSelect }) {
 
 function Question({ quiz, qIndex, answers, onAnswer, onNext, onBack }) {
   const q = quiz.questions[qIndex];
+  if (!q) return null;
   const pickKey = answers._lastPick || "";
 
   function handlePick(qId, value, key) {
