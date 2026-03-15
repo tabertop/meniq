@@ -1365,7 +1365,6 @@ function getMenIQCategory(quizId, score) {
 
 function Result({ quiz, result, tracking, onRestart }) {
   const [filled, setFilled] = useState(false);
-  const [transitioning, setTransitioning] = useState(false);
   useEffect(() => { setTimeout(() => setFilled(true), 80); }, []);
   const ctaUrl = buildCTAUrl(quiz.ctaBase, tracking);
 
@@ -1377,96 +1376,139 @@ function Result({ quiz, result, tracking, onRestart }) {
       ? ctaUrl + (ctaUrl.includes("?") ? "&" : "?") + "a_aid=" + papAid
       : ctaUrl;
     const inIframe = (() => { try { return window.self !== window.top; } catch(_) { return true; } })();
-    if (inIframe) { window.open(finalUrl, "_blank", "noopener,noreferrer"); } else { window.location.href = finalUrl; }
+    if (inIframe) {
+      window.open(finalUrl, "_blank", "noopener,noreferrer");
+    } else {
+      window.location.href = finalUrl;
+    }
   }
-
-  if (transitioning) return (
-    <div className="mrx-transition-overlay">
-      <div className="mrx-spinner" />
-      <p className="mrx-transition-msg">Connecting you with a licensed provider…</p>
-      <div className="mrx-transition-secure">
-        <svg className="mrx-transition-lock" width="13" height="13" viewBox="0 0 14 14" fill="none">
-          <rect x="3" y="6" width="8" height="6" rx="1.5" stroke="#6B7280" strokeWidth="1.2"/>
-          <path d="M5 6V4.5a2 2 0 014 0V6" stroke="#6B7280" strokeWidth="1.2" strokeLinecap="round"/>
-        </svg>
-        Secure medical visit
-      </div>
-    </div>
-  );
 
   return (
     <div className="mrx-result">
-      <div className="mrx-rtag"><span className="mrx-rtag-dot" /> Your Health Profile</div>
-      <div className="mrx-step-indicator">Step 3 of 3 — Your Results</div>
+      <div className="mrx-rtag"><span className="mrx-rtag-dot" /> MenIQ Assessment</div>
+      <div className="mrx-step-indicator">Your Personalized Results</div>
       <span className="mrx-remoji">{result.emoji}</span>
       <h2 className="mrx-rtitle">{result.headline}</h2>
       <p className="mrx-rexp">{result.explanation}</p>
       <div className="mrx-conf">
-        <div className="mrx-clabel">
-          <span>Match confidence</span>
-          <span className="mrx-cval">{result.confidence}%</span>
+        <div className="mrx-score-header">
+          <div className="mrx-score-brand">Men<span>IQ</span> Score</div>
+          <div className="mrx-score-display">
+            <span className="mrx-score-num" style={{ color: getScoreColor(result.confidence) }}>
+              {result.confidence}
+            </span>
+            <span className="mrx-score-denom">/ 100</span>
+          </div>
         </div>
+        <div className="mrx-score-category">{getMenIQCategory(quiz.id, result.confidence)}</div>
         <div className="mrx-ctrack">
-          <div className="mrx-cfill" style={{ width: filled ? `${result.confidence}%` : "0%" }} />
+          <div className="mrx-cfill" style={{
+            width: filled ? `${result.confidence}%` : "0%",
+            background: getScoreColor(result.confidence)
+          }} />
         </div>
+        <div className="mrx-score-footnote">Based on your responses · Not a medical diagnosis</div>
       </div>
       <div className="mrx-bullets">
         {result.bullets.map((b, i) => (
           <div key={i} className="mrx-bullet">
             <span className="mrx-bicon">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path d="M2 5l2.5 2.5L8 3" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M2 5l2.5 2.5L8 3" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLineJoin="round" />
               </svg>
             </span>
             {b}
           </div>
         ))}
       </div>
+
+      {/* PRIMARY CTA — placed directly after bullets, above fold on mobile */}
+      <div className="mrx-cta-block">
+        <div className="mrx-cta-support">
+          <p className="mrx-cta-support-line mrx-cta-avail">
+            <span className="mrx-avail-dot" />
+            A licensed provider can review your answers online.
+          </p>
+          <p className="mrx-cta-support-line">Most visits take only a few minutes.</p>
+        </div>
+        <a className="mrx-cta" href={ctaUrl} onClick={handleCTA} rel="noopener noreferrer">
+          {quiz.ctaLabel} ₐ
+        </a>
+        <div className="mrx-trust-strip">
+          <span>Private online visit</span>
+          <span className="mrx-trust-dot" />
+          <span>Licensed U.S. providers</span>
+          <span className="mrx-trust-dot" />
+          <span>Discreet treatment options</span>
+        </div>
+      </div>
+
       <PeerComparison quizId={quiz.id} ageBracket={result.ageBracket} />
-      <div className="mrx-friction-line">
-        <span className="mrx-avail-row">
-          <span className="mrx-avail-dot" />
-          <span>A provider can review your answers now.</span>
-        </span>
-        <span className="mrx-avail-sub">Most visits take under 3 minutes.</span>
-      </div>
-      <div className="mrx-free-visit">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{flexShrink:0,marginTop:1}}>
-          <path d="M7 1a6 6 0 100 12A6 6 0 007 1zm0 2.5a1 1 0 110 2 1 1 0 010-2zm1.25 6.25h-2.5a.75.75 0 010-1.5h.75V7.5H6a.75.75 0 010-1.5h1a.75.75 0 01.75.75v1.5h.5a.75.75 0 010 1.5z" fill="#c0392b"/>
-        </svg>
-        Free medical visit with a licensed provider
-      </div>
-      <a className="mrx-cta" href={ctaUrl} onClick={handleCTA} rel="noopener noreferrer">
-        {quiz.ctaLabel} →
-      </a>
-      <p className="mrx-privacy-strip">100% private • Discreet shipping • No waiting rooms</p>
       <button className="mrx-cta2" onClick={onRestart}>Take a different quiz</button>
       <div className="mrx-share-section">
-        <p className="mrx-share-label">Share with a friend</p>
-        <div className="mrx-share-grid-2">
-          <a className="mrx-share-btn mrx-share-tg"
-            href={`https://t.me/share/url?url=${encodeURIComponent(buildShareUrl(tracking,'telegram',result))}&text=${encodeURIComponent('I just took the MenIQ Health Test. Find out where you rank 👇')}`}
+        <div className="mrx-share-header">
+          <p className="mrx-share-label">Share Your Score</p>
+          <p className="mrx-share-sub">Challenge your friends to beat it</p>
+        </div>
+        {/* Row 1: TikTok, Instagram, X */}
+        <div className="mrx-share-row1">
+          <a className="mrx-share-btn mrx-share-tt"
+            href={`https://www.tiktok.com/share?url=${encodeURIComponent(buildShareUrl(tracking, 'tiktok', result))}&text=${encodeURIComponent('I just scored on the MenIQ Health Test. Can you beat me? 🐷' )}`}
             target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.947l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.978.612z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/>
+            </svg>
+            TikTok
+          </a>
+          <a className="mrx-share-btn mrx-share-ig"
+            href={`https://www.instagram.com/`}
+            target="_blank" rel="noopener noreferrer"
+            onClick={() => { try { navigator.clipboard.writeText(buildShareUrl(tracking, 'instagram', result) + ' — I just took the MenIQ Health Test. Try to beat my score.'); } catch(e){ fireShareEvent('instagram', tracking, result); } }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28-.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+            Instagram
+          </a>
+          <a className="mrx-share-btn mrx-share-x"
+            href={`https://x.com/intent/tweet?text=${encodeURIComponent('I just took the MenIQ Health Test 🔴 See how you score vs other men your age 🐷')}&url=${encodeURIComponent(buildShareUrl(tracking, 'x', result))}`}
+            target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            X
+          </a>
+        </div>
+        {/* Row 2: Telegram, WhatsApp */}
+        <div className="mrx-share-row2">
+          <a className="mrx-share-btn mrx-share-tg"
+            href={`https://t.me/share/url?url=${encodeURIComponent(buildShareUrl(tracking, 'telegram', result))}&text=${encodeURIComponent('I just took the MenIQ Health Test. Find out where you rank vs other men your age 🐷')}`}
+            target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.947l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.978.612z"/>
+            </svg>
             Telegram
           </a>
           <a className="mrx-share-btn mrx-share-wa"
-            href={`https://wa.me/?text=${encodeURIComponent('MenIQ Health Test 👇 ' + buildShareUrl(tracking,'whatsapp',result))}`}
+            href={`https://wa.me/?text=${encodeURIComponent('I just took the MenIQ Health Test. Find out where you rank vs other men your age 🐷 ' + buildShareUrl(tracking, 'whatsapp', result))}`}
             target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A9.915 9.915 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
             WhatsApp
           </a>
         </div>
       </div>
       <p className="mrx-disc">
         This assessment is for informational purposes only. All treatments require consultation with a licensed provider.
-        {tracking.affiliate ? ` · Ref: ${tracking.affiliate}` : ""}
+        {tracking.affiliate ? ` - Ref: ${tracking.affiliate}` : ""}
       </p>
+      <div style={{position:'fixed',bottom:'8px',right:'8px',background:'#c0392b',color:'white',fontSize:'10px',fontWeight:'w;
+0k',padding:'4px 8px',borderRadius:'4px',zIndex:9999,letterSpacing:'.04em',fontFamily:'monospace'}}>VERSION TEST NEW SCREEN</div>
     </div>
   );
 }
 
-// ── Main App ──────────────────────────────────────────────────────────────────
+
 export default function MaxRxQuiz() {
   const [phase, setPhase] = useState("welcome");
   const [quizId, setQuizId] = useState(null);
