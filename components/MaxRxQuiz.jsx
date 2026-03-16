@@ -1435,11 +1435,7 @@ function Result({ quiz, result, tracking, onRestart }) {
           {quiz.ctaLabel} ₐ
         </a>
         <div className="mrx-trust-strip">
-          <span>Private online visit</span>
-          <span className="mrx-trust-dot" />
-          <span>Licensed U.S. providers</span>
-          <span className="mrx-trust-dot" />
-          <span>Discreet treatment options</span>
+          <span>Private online visit · Licensed U.S. providers · Discreet treatment options</span>
         </div>
       </div>
 
