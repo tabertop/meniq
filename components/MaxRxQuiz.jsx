@@ -1092,7 +1092,7 @@ function Welcome({ onSelect }) {
               <div className="mrx-card-icon">⚡</div>
               <div className="mrx-card-info">
                 <h3>Bedroom Confidence Score</h3>
-                <p>Performance, energy & confidence assessment</p>
+                <p>Performance, energy &amp; confidence assessment</p>
               </div>
               <span className="mrx-card-arr">›</span>
             </button>
@@ -1100,7 +1100,7 @@ function Welcome({ onSelect }) {
               <div className="mrx-card-icon">🌱</div>
               <div className="mrx-card-info">
                 <h3>Hairline Risk Score</h3>
-                <p>Hair loss stage & treatment opportunity</p>
+                <p>Hair loss stage &amp; treatment opportunity</p>
               </div>
               <span className="mrx-card-arr">›</span>
             </button>
@@ -1108,7 +1108,7 @@ function Welcome({ onSelect }) {
               <div className="mrx-card-icon">🔥</div>
               <div className="mrx-card-info">
                 <h3>Is Your Testosterone Low?</h3>
-                <p>Energy, drive & hormone level assessment</p>
+                <p>Energy, drive &amp; hormone level assessment</p>
               </div>
               <span className="mrx-card-arr">›</span>
             </button>
@@ -1279,7 +1279,7 @@ function LeadGate({ quiz, result, tracking, onDone }) {
       >
         {status === "loading" ? "Sending..." : "Email My Results \u2192"}
       </button>
-      <p className="mrx-lead-privacy">🔒 Private & secure — never sold or shared</p>
+      <p className="mrx-lead-privacy">🔒 Private &amp; secure — never sold or shared</p>
       <div className="mrx-lg-divider"><span>or</span></div>
       <button className="mrx-lg-skip-btn" onClick={handleSkip}>
         Show My Results →
